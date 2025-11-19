@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="enter_tv">Вход</string>
+    <string name="email_text">Email</string>
+    <string name="password_text">Пароль</string>
+    <string name="email_hint">example@gmail.com</string>
+    <string name="password_hint">Введите пароль</string>
+    <string name="enter_btn_txt">Вход</string>
+    <string name="not_exists_acc">Нет аккаунта?</string>
+    <string name="registration_tv">Регистрация</string>
+    <string name="forgot_password">Забыл пароль</string>
+    <string name="vk">vk</string>
+    <string name="classmates">Classmates</string>
+</resources>
