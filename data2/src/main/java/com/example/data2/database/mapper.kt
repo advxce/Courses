@@ -11,6 +11,7 @@ fun Course.toEntity(): CourseEntity {
         rate = rate,
         startDate = startDate,
         hasLike = hasLike,
-        publishDate = publishDate
+        publishDate = publishDate,
+        isBookmarked = isBookmarked
     )
 }

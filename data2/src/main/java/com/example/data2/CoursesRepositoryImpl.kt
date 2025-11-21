@@ -1,5 +1,6 @@
 package com.example.data2
 
+import android.util.Log
 import com.example.data2.database.DAO
 import com.example.data2.database.toDomain
 import com.example.data2.database.toEntity
@@ -20,7 +21,7 @@ class CoursesRepositoryImpl @Inject constructor(
     override suspend fun loadCourses(): LoadCoursesResult {
         return try {
             val localCourses = dao.getAllCourses()
-
+            Log.i("CheckData", "Local:" +localCourses.toString())
             return if (localCourses.isNotEmpty()) {
                 LoadCoursesResult.Success(
                     CourseList(localCourses.map { it.toDomain() })
@@ -30,11 +31,18 @@ class CoursesRepositoryImpl @Inject constructor(
                     val response: Response<CourseListRemoteData> = service.loadCourses()
                     if (response.isSuccessful) {
                         response.body()?.let { body ->
-                            val domain = body.toDomain()
-                            dao.insertCourses(domain.listCourses.map { it.toEntity() })
-                            LoadCoursesResult.Success(domain)
+
+//                            val domain = body.toDomain()
+
+                            val mergedCourses = response.body()!!.courseList.map { remote ->
+                                remote.toDomain()
+                            }
+                            Log.i("CheckData", "Merged"+ mergedCourses.toString())
+                            dao.insertCourses(mergedCourses.map { it.toEntity() })
+
+                            LoadCoursesResult.Success(CourseList(mergedCourses))
                         } ?: LoadCoursesResult.Error("Empty server response")
-                    } else {
+                    }else {
                         LoadCoursesResult.Error("Server error: ${response.code()}")
                     }
                 } else {
@@ -48,6 +56,7 @@ class CoursesRepositoryImpl @Inject constructor(
 
     override suspend fun getBookmarkedCourses(): LoadCoursesResult {
         val list = dao.getBookmarkedCourses()
+        Log.i("CheckData", "BookMarkList "+ list.toString())
         return if (list.isNotEmpty()) {
             LoadCoursesResult.Success(CourseList(list.map { it.toDomain() }))
         } else {
@@ -56,8 +65,11 @@ class CoursesRepositoryImpl @Inject constructor(
     }
 
     override suspend fun toggleBookmark(id: Int, currentValue: Boolean) {
+
         val newValue = !currentValue
         dao.updateBookmark(id, newValue)
+
+        Log.i("CheckData", "BookmarkValue $newValue")
     }
 
 }

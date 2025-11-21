@@ -10,7 +10,7 @@ data class CourseListRemoteData(
     @SerializedName("courses")
     val courseList: List<CourseRemoteData>
 ) {
-    fun toDomain(): CourseList {
-        return CourseList(listCourses = courseList.map { it.toDomain() })
-    }
+//    fun toDomain(): CourseList {
+//        return CourseList(listCourses = courseList.map { it.toDomain() })
+//    }
 }

@@ -1,6 +1,5 @@
 package com.example.presentation.viewModels
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.CoursesRepository
@@ -15,49 +14,30 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class CourseViewModel @Inject constructor(
+class FavoritesViewModel @Inject constructor(
     private val coursesRepository: CoursesRepository,
     private val mapper: LoadCoursesResult.Mapper<CourseState>
-): ViewModel() {
-
+):ViewModel() {
     private val _coursesState = MutableStateFlow<CourseState>(CourseState.Loading)
-    val coursesState : StateFlow<CourseState> = _coursesState.asStateFlow()
+    val coursesState: StateFlow<CourseState> = _coursesState.asStateFlow()
 
-    fun loadCourses(){
+    fun loadCourses() {
         viewModelScope.launch {
-
             _coursesState.value = CourseState.Loading
-
             try {
-                val courses = coursesRepository.loadCourses()
-
-                _coursesState.value = courses.map(mapper)
-                Log.i("DB",_coursesState.value.toString())
+                val result = coursesRepository.getBookmarkedCourses()
+                _coursesState.value = result.map(mapper)
+            } catch (e: Exception) {
+                _coursesState.value = CourseState.Error("Ошибка: ${e.message}")
             }
-            catch (e: Exception) {
-                _coursesState.value = CourseState.Error("Ошибка сети: ${e.message}")
-            }
-
-
         }
     }
 
     fun onBookmarkClick(course: CourseUI) {
         viewModelScope.launch {
-            coursesRepository.toggleBookmark(course.id, !course.isBookmarked)
+            coursesRepository.toggleBookmark(course.id, course.isBookmarked)
 
-
-
-            val currentState = _coursesState.value
-
-            if (currentState is CourseState.Success) {
-                val updatedList = currentState.courses.map { c ->
-                    if (c.id == course.id) c.copy(isBookmarked = !c.isBookmarked)
-                    else c
-                }
-                CourseState.Success(updatedList)
-
-            }
+            loadCourses()
         }
     }
 }

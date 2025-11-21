@@ -1,5 +1,6 @@
 package com.example.data2.retrofit
 
+import com.example.data2.database.CourseEntity
 import com.example.domain.Course
 import com.google.gson.annotations.SerializedName
 import kotlinx.serialization.Serializable
@@ -13,7 +14,8 @@ data class CourseRemoteData(
     @SerializedName("rate") val rate: String,
     @SerializedName("startDate") val startDate: String,
     @SerializedName("hasLike") val hasLike: Boolean,
-    @SerializedName("publishDate") val publishDate: String
+    @SerializedName("publishDate") val publishDate: String,
+    val isBookmarked: Boolean
 ){
     fun toDomain(): Course {
         return Course(
@@ -24,7 +26,8 @@ data class CourseRemoteData(
             rate = rate,
             startDate = startDate,
             hasLike = hasLike,
-            publishDate = publishDate
+            publishDate = publishDate,
+            isBookmarked = isBookmarked
         )
     }
 }

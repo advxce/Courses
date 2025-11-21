@@ -28,6 +28,7 @@ fun CourseEntity.toDomain(): Course {
         rate = rate,
         startDate = startDate,
         hasLike = hasLike,
-        publishDate = publishDate
+        publishDate = publishDate,
+        isBookmarked = isBookmarked
     )
 }
