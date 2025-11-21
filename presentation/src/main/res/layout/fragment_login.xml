@@ -41,10 +41,12 @@
         />
 
     <EditText
+        android:id="@+id/emailEditTxt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingVertical="14dp"
         android:paddingLeft="16dp"
+        android:textColor="@color/app_textview_color"
         android:hint="@string/email_hint"
         android:textColorHint="@color/hint_color_50"
         android:textSize="12sp"
@@ -64,11 +66,13 @@
         android:textSize="16sp"
         />
     <EditText
+        android:id="@+id/passwordEditTxt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingVertical="14dp"
         android:paddingLeft="16dp"
         android:hint="@string/password_hint"
+        android:textColor="@color/app_textview_color"
         android:textColorHint="@color/hint_color_50"
         android:textSize="12sp"
         android:background="@drawable/container_edit_tv"
