@@ -2,6 +2,8 @@ package com.example.presentation.adapter.delegates
 
 import android.util.Log
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
+import com.example.presentation.MainActivity
 import com.example.presentation.R
 import com.example.presentation.data.CourseUI
 import com.example.presentation.databinding.ItemCourseBinding
@@ -43,6 +45,8 @@ fun courseAdapterDelegate(
         binding.itemHeader.blurViewBookmark.initBlur(rootView)
         binding.itemHeader.blurViewContent.initBlur(rootView)
 
+
+
         binding.root.setOnClickListener {
             onDetailsClick(item)
         }
@@ -50,6 +54,17 @@ fun courseAdapterDelegate(
             courseImage.setImageResource(item.image)
             dateTextView.text = item.date
             ratingTextView.text = item.rating
+            bookmarkCard.setOnClickListener {
+                val newItem = item.copy(isBookmarked = !item.isBookmarked)
+                bookmark.setColorFilter(
+                    if (newItem.isBookmarked)
+                        ContextCompat.getColor(context, R.color.app_green)
+                    else
+                        ContextCompat.getColor(context, R.color.app_textview_color)
+                )
+                onBookmarkedClick(newItem)
+            }
+
         }
 
         binding.itemContent.apply {

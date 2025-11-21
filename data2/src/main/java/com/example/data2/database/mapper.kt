@@ -1,0 +1,16 @@
+package com.example.data2.database
+
+import com.example.domain.Course
+
+fun Course.toEntity(): CourseEntity {
+    return CourseEntity(
+        id = id,
+        title = title,
+        text = text,
+        price = price,
+        rate = rate,
+        startDate = startDate,
+        hasLike = hasLike,
+        publishDate = publishDate
+    )
+}

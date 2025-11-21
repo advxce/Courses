@@ -1,15 +1,11 @@
-package com.example.presentation
+package com.example.presentation.viewModels
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.domain.CourseList
 import com.example.domain.CoursesRepository
 import com.example.domain.LoadCoursesResult
 import com.example.presentation.data.CourseUI
 import com.example.presentation.mapper.CourseState
-
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -41,8 +37,21 @@ class CourseViewModel @Inject constructor(
             }
 
 
-//            val coursesState = courses.map(mapper)
-//            _coursesLiveData.postValue(coursesUi)
+        }
+    }
+
+    fun onBookmarkClick(course: CourseUI) {
+        viewModelScope.launch {
+            coursesRepository.toggleBookmark(course.id, course.isBookmarked)
+
+            val currentState = _coursesState.value
+            if (currentState is CourseState.Success) {
+                val updatedList = currentState.courses.map { c ->
+                    if (c.id == course.id) c.copy(isBookmarked = !c.isBookmarked)
+                    else c
+                }
+                _coursesState.value = CourseState.Success(updatedList)
+            }
         }
     }
 }

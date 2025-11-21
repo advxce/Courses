@@ -1,10 +1,13 @@
 package com.example.courses.modules
 
-import com.example.data.CourseRemoteService
+import android.content.Context
+import com.example.data2.CourseRemoteService
+import com.example.data2.NetworkChecker
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ActivityComponent
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -35,4 +38,7 @@ object RetrofitModule {
             .build()
             .create(CourseRemoteService::class.java)
 
+
+    @Provides
+    fun provideNetworkChecker(@ApplicationContext context: Context) = NetworkChecker(context)
 }

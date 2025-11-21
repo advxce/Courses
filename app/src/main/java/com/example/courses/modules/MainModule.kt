@@ -1,6 +1,6 @@
 package com.example.courses.modules
 
-import com.example.data.CoursesRepositoryImpl
+import com.example.data2.CoursesRepositoryImpl
 import com.example.domain.CoursesRepository
 
 import dagger.Binds

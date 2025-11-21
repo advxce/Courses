@@ -1,4 +1,4 @@
-package com.example.data
+package com.example.data2.retrofit
 
 import com.example.domain.Course
 import com.google.gson.annotations.SerializedName
@@ -15,7 +15,7 @@ data class CourseRemoteData(
     @SerializedName("hasLike") val hasLike: Boolean,
     @SerializedName("publishDate") val publishDate: String
 ){
-    fun toDomain(): Course{
+    fun toDomain(): Course {
         return Course(
             id = id,
             title = title,

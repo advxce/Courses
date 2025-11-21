@@ -13,7 +13,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.presentation.BottomPaddingDecoration
-import com.example.presentation.CourseViewModel
+import com.example.presentation.viewModels.CourseViewModel
 import com.example.presentation.R
 import com.example.presentation.adapter.CoursesAdapter
 import com.example.presentation.data.CourseUI
@@ -41,11 +41,7 @@ class HomeFragment: Fragment() {
                 ).show()
             },
             onBookmarkClick = { course ->
-                Toast.makeText(
-                    requireContext(),
-                    "${course}",
-                    Toast.LENGTH_SHORT
-                ).show()
+                courseViewModel.onBookmarkClick(course)
             },
         )
     }
