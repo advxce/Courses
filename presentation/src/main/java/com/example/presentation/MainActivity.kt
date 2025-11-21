@@ -1,30 +1,35 @@
 package com.example.presentation
 
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import android.view.ViewGroup
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.forEach
+import androidx.navigation.NavController
 import com.example.domain.CourseList
 import com.example.domain.CoursesRepository
 import com.example.domain.LoadCoursesResult
+import com.example.presentation.databinding.ActivityMainBinding
+import com.example.presentation.fragments.AccountFragment
+import com.example.presentation.fragments.FavoritesFragment
+import com.example.presentation.fragments.HomeFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 import eightbitlab.com.blurview.BlurView
-import eightbitlab.com.blurview.RenderScriptBlur
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
+
+    private var binding: ActivityMainBinding? = null
 
     @Inject
     lateinit var coursesRepository: CoursesRepository
@@ -35,50 +40,134 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_main)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding?.root)
+
 
         load()
 
 
-        findViewById<View>(R.id.main).post {
-            setupBlurViews()
+        initBottomBar()
+
+//        findViewById<View>(R.id.main).post {
+//            setupBlurViews()
+//        }
+
+
+    }
+
+    private fun initBottomBar() {
+        binding?.let { bind ->
+            bind.bottomBar.apply {
+                tabHome.setOnClickListener { selectTab(Tab.HOME) }
+                tabFavorites.setOnClickListener { selectTab(Tab.FAVORITES) }
+                tabAccount.setOnClickListener { selectTab(Tab.ACCOUNT) }
+
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.fragmentHomeContainer, HomeFragment())
+                    .addToBackStack(null)
+                    .commit()
+
+                homeCircle.background =
+                    ContextCompat.getDrawable(this@MainActivity, R.drawable.bg_active_item)
+
+
+                iconHome.setColorFilter(ContextCompat.getColor(this@MainActivity,R.color.app_green))
+                iconFavorites.setColorFilter(ContextCompat.getColor(this@MainActivity,R.color.app_textview_color))
+                iconAccount.setColorFilter(ContextCompat.getColor(this@MainActivity,R.color.app_textview_color))
+
+                textHome.setTextColor(ContextCompat.getColor(this@MainActivity,R.color.app_green))
+                textFavorites.setTextColor(ContextCompat.getColor(this@MainActivity,R.color.app_textview_color))
+                textAccount.setTextColor(ContextCompat.getColor(this@MainActivity,R.color.app_textview_color))
+            }
         }
+    }
 
-//
-//        val blurViewRating = findViewById<BlurView>(R.id.blurViewRating)
-//        val blurViewBookmark = findViewById<BlurView>(R.id.blurViewBookmark)
-//        val blurViewContent = findViewById<BlurView>(R.id.blurViewContent)
-//        val decorView = window.decorView
-//        val rootView = decorView.findViewById<ViewGroup>(android.R.id.content)
-//        val windowBackground = decorView.background
-//
-//                blurViewContent.setupWith(rootView)
-//                    .setFrameClearDrawable(windowBackground)
-//                    .setBlurRadius(15f)
-//
-//                blurViewRating.setupWith(rootView)
-//                    .setFrameClearDrawable(windowBackground)
-//                    .setBlurRadius(15f)
-//
-//                blurViewBookmark.setupWith(rootView)
-//                    .setFrameClearDrawable(windowBackground)
-//                    .setBlurRadius(15f)
-
-//        val blurView = findViewById<BlurView>(R.id.blurView)
-//        val decorView = window.decorView
-//        val rootView = decorView.findViewById<ViewGroup>(android.R.id.content)
-//        val windowBackground = decorView.background
-//
-//        blurView.setupWith(rootView)
-//            .setFrameClearDrawable(windowBackground)
-//            .setBlurRadius(15f)
+    private enum class Tab { HOME, FAVORITES, ACCOUNT }
 
 
+    private fun selectTab(tab: Tab) {
+
+
+        binding?.let { bind ->
+            bind.bottomBar.apply {
+
+
+                when (tab) {
+                    Tab.HOME -> {
+
+                        homeCircle.background =
+                            ContextCompat.getDrawable(this@MainActivity, R.drawable.bg_active_item)
+                        favoritesCircle.background =
+                            ContextCompat.getDrawable(this@MainActivity, R.drawable.bg_inactive_item)
+                        accountCircle.background =
+                            ContextCompat.getDrawable(this@MainActivity, R.drawable.bg_inactive_item)
+
+
+                        iconHome.setColorFilter(ContextCompat.getColor(this@MainActivity,R.color.app_green))
+
+                        iconFavorites.setColorFilter(ContextCompat.getColor(this@MainActivity,R.color.app_textview_color))
+                        iconAccount.setColorFilter(ContextCompat.getColor(this@MainActivity,R.color.app_textview_color))
+
+                        textHome.setTextColor(ContextCompat.getColor(this@MainActivity,R.color.app_green))
+                        textFavorites.setTextColor(ContextCompat.getColor(this@MainActivity,R.color.app_textview_color))
+                        textAccount.setTextColor(ContextCompat.getColor(this@MainActivity,R.color.app_textview_color))
+
+                        supportFragmentManager.beginTransaction()
+                            .replace(R.id.fragmentHomeContainer, HomeFragment())
+                            .addToBackStack(null)
+                            .commit()
+
+                    }
+
+                    Tab.FAVORITES -> {
+                        homeCircle.background =
+                            ContextCompat.getDrawable(this@MainActivity, R.drawable.bg_inactive_item)
+                        favoritesCircle.background =
+                            ContextCompat.getDrawable(this@MainActivity, R.drawable.bg_active_item)
+                        accountCircle.background =
+                            ContextCompat.getDrawable(this@MainActivity, R.drawable.bg_inactive_item)
+
+
+                        iconFavorites.setColorFilter(ContextCompat.getColor(this@MainActivity,R.color.app_green))
+                        iconHome.setColorFilter(ContextCompat.getColor(this@MainActivity,R.color.app_textview_color))
+                        iconAccount.setColorFilter(ContextCompat.getColor(this@MainActivity,R.color.app_textview_color))
+
+                        textFavorites.setTextColor(ContextCompat.getColor(this@MainActivity,R.color.app_green))
+                        textHome.setTextColor(ContextCompat.getColor(this@MainActivity,R.color.app_textview_color))
+                        textAccount.setTextColor(ContextCompat.getColor(this@MainActivity,R.color.app_textview_color))
+
+                        supportFragmentManager.beginTransaction()
+                            .replace(R.id.fragmentHomeContainer, FavoritesFragment())
+                            .addToBackStack(null)
+                            .commit()
+                    }
+
+                    Tab.ACCOUNT -> {
+                        homeCircle.background =
+                            ContextCompat.getDrawable(this@MainActivity, R.drawable.bg_inactive_item)
+                        accountCircle.background =
+                            ContextCompat.getDrawable(this@MainActivity, R.drawable.bg_active_item)
+                        favoritesCircle.background =
+                            ContextCompat.getDrawable(this@MainActivity, R.drawable.bg_inactive_item)
+
+
+                        iconAccount.setColorFilter(ContextCompat.getColor(this@MainActivity,R.color.app_green))
+                        iconFavorites.setColorFilter(ContextCompat.getColor(this@MainActivity,R.color.app_textview_color))
+                        iconHome.setColorFilter(ContextCompat.getColor(this@MainActivity,R.color.app_textview_color))
+
+                        textAccount.setTextColor(ContextCompat.getColor(this@MainActivity,R.color.app_green))
+                        textHome.setTextColor(ContextCompat.getColor(this@MainActivity,R.color.app_textview_color))
+                        textFavorites.setTextColor(ContextCompat.getColor(this@MainActivity,R.color.app_textview_color))
+
+                        supportFragmentManager.beginTransaction()
+                            .replace(R.id.fragmentHomeContainer, AccountFragment())
+                            .addToBackStack(null)
+                            .commit()
+                    }
+                }
+            }
+        }
     }
 
     private fun setupBlurViews() {
@@ -91,17 +180,15 @@ class MainActivity : AppCompatActivity() {
             return
         }
 
-        // Корневой layout экрана
         val rootView = findViewById<ViewGroup>(R.id.main)
 
-        // Фон (у тебя он чёрный, но размывать будем картинку внутри CardView)
         val windowBackground = rootView.background
 
         fun BlurView.initBlur() {
             setupWith(rootView)
 
                 .setFrameClearDrawable(windowBackground)
-                .setBlurRadius(18f)          // для наглядности можно побольше
+                .setBlurRadius(18f)
                 .setBlurAutoUpdate(true)
         }
 
@@ -129,5 +216,11 @@ class MainActivity : AppCompatActivity() {
                 Log.i("test", "${e.message}")
             }
         }
+    }
+
+
+    override fun onDestroy() {
+        super.onDestroy()
+        binding = null
     }
 }

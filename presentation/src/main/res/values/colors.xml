@@ -5,10 +5,11 @@
     <color name="app_textview_color">#F2F2F3</color>
     <color name="hint_color_50">#91F2F2F3</color>
     <color name="text_color">#32333A</color>
-    <color name="login_green">#12B956</color>
+    <color name="app_green">#12B956</color>
     <color name="vk_btn">#2683ED</color>
     <color name="classmates_btn_start_grad">#F98509</color>
     <color name="classmates_btn_end_grad">#F95D00</color>
     <color name="card_bg">#24252A</color>
-
+    <color name="card_content_txt">#b0b0b0</color>
+    <color name="item_container">#32333A</color>
 </resources>

@@ -1,172 +1,206 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#000000"
-    android:padding="16dp"
+    android:background="#151515"
+
     tools:context="com.example.presentation.MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
+<!--    <androidx.cardview.widget.CardView-->
+<!--        android:id="@+id/parentCard"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="150dp"-->
+<!--        app:cardCornerRadius="12dp"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent">-->
+
+<!--        <ImageView-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:adjustViewBounds="true"-->
+<!--            android:background="@drawable/card_image_shape"-->
+<!--            android:clipToOutline="true"-->
+<!--            android:scaleType="centerCrop"-->
+<!--            android:src="@drawable/java_course_crop" />-->
+
+<!--        <FrameLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:padding="10dp">-->
+
+
+<!--            <androidx.cardview.widget.CardView-->
+<!--                android:id="@+id/bookmarkCard"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_gravity="end"-->
+<!--                app:cardBackgroundColor="#32333A4D"-->
+<!--                app:cardCornerRadius="20dp"-->
+<!--                app:cardElevation="0dp">-->
+
+<!--                <eightbitlab.com.blurview.BlurView-->
+<!--                    android:id="@+id/blurViewBookmark"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:clipToOutline="true" />-->
+
+<!--                <LinearLayout-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:orientation="horizontal"-->
+<!--                    android:padding="6dp">-->
+
+<!--                    <ImageView-->
+<!--                        android:id="@+id/bookmark"-->
+<!--                        android:layout_width="16dp"-->
+<!--                        android:layout_height="16dp"-->
+<!--                        android:layout_gravity="center"-->
+<!--                        android:src="@drawable/bookmark" />-->
+<!--                </LinearLayout>-->
+
+
+<!--            </androidx.cardview.widget.CardView>-->
+
+
+<!--            <LinearLayout-->
+<!--                android:id="@+id/bottomPanel"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_gravity="bottom"-->
+<!--                android:orientation="horizontal">-->
+
+
+<!--                <androidx.cardview.widget.CardView-->
+<!--                    android:id="@+id/ratingCard"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    app:cardBackgroundColor="#32333A4D"-->
+<!--                    app:cardCornerRadius="12dp"-->
+<!--                    app:cardElevation="0dp">-->
+
+
+<!--                    <eightbitlab.com.blurview.BlurView-->
+<!--                        android:id="@+id/blurViewRating"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="match_parent"-->
+<!--                        android:clipToOutline="true" />-->
+
+<!--                    <LinearLayout-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="match_parent"-->
+<!--                        android:gravity="center"-->
+<!--                        android:orientation="horizontal"-->
+<!--                        android:paddingHorizontal="6dp"-->
+<!--                        android:paddingVertical="4dp">-->
+
+<!--                        <ImageView-->
+<!--                            android:layout_width="16dp"-->
+<!--                            android:layout_height="16dp"-->
+<!--                            android:src="@drawable/star_fill" />-->
+
+<!--                        <Space-->
+<!--                            android:layout_width="4dp"-->
+<!--                            android:layout_height="1dp" />-->
+
+<!--                        <TextView-->
+<!--                            android:id="@+id/ratingTextView"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:text="4.9"-->
+<!--                            android:textColor="@color/app_textview_color"-->
+<!--                            android:textSize="14sp" />-->
+<!--                    </LinearLayout>-->
+<!--                </androidx.cardview.widget.CardView>-->
+
+
+<!--                <View-->
+<!--                    android:layout_width="6dp"-->
+<!--                    android:layout_height="1dp" />-->
+
+
+<!--                <androidx.cardview.widget.CardView-->
+<!--                    android:id="@+id/dateCard"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    app:cardBackgroundColor="#32333A4D"-->
+<!--                    app:cardCornerRadius="12dp"-->
+<!--                    app:cardElevation="0dp">-->
+
+<!--                    &lt;!&ndash; Размытый фон под датой &ndash;&gt;-->
+<!--                    <eightbitlab.com.blurview.BlurView-->
+<!--                        android:id="@+id/blurViewContent"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="match_parent"-->
+<!--                        android:clipToOutline="true" />-->
+
+<!--                    <LinearLayout-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="match_parent">-->
+
+<!--                        <TextView-->
+<!--                            android:id="@+id/dateTextView"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:paddingHorizontal="6dp"-->
+<!--                            android:paddingVertical="4dp"-->
+<!--                            android:text="22 Мая 2024"-->
+<!--                            android:textColor="@color/app_textview_color"-->
+<!--                            android:textSize="14sp" />-->
+<!--                    </LinearLayout>-->
+
+<!--                </androidx.cardview.widget.CardView>-->
+
+<!--            </LinearLayout>-->
+
+
+
+<!--        </FrameLayout>-->
+
+<!--    </androidx.cardview.widget.CardView>-->
+
+        <androidx.fragment.app.FragmentContainerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/fragmentHomeContainer"/>
+
+    <include
+        android:id="@+id/bottomBar"
+        layout="@layout/bottom_nav"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent" />
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/parentCard"
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
-        app:cardCornerRadius="12dp">
+<!--    <com.google.android.material.bottomnavigation.BottomNavigationView-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        tools:layout_editor_absoluteX="16dp">-->
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:adjustViewBounds="true"
-            android:scaleType="centerCrop"
-            android:src="@drawable/java_course_crop"
-            android:clipToOutline="true"
-            android:background="@drawable/card_image_shape" />
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="10dp">
+<!--        <com.google.android.material.tabs.TabLayout-->
+<!--            android:id="@+id/tab"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content" />-->
+<!--    </com.google.android.material.bottomnavigation.BottomNavigationView>-->
 
 
+<!--    <androidx.viewpager2.widget.ViewPager2-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:orientation="horizontal"-->
+<!--        android:id="@+id/viewPager"-->
+<!--        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"/>-->
 
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/bookmarkCard"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end"
-                    app:cardBackgroundColor="#32333A4D"
-                    app:cardCornerRadius="20dp"
-                    app:cardElevation="0dp"
-                    >
-                    <eightbitlab.com.blurview.BlurView
-                        android:id="@+id/blurViewBookmark"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:clipToOutline="true" />
-                   <LinearLayout
-                       android:layout_width="match_parent"
-                       android:layout_height="match_parent"
-                       android:orientation="horizontal"
-                       android:padding="6dp">
-                       <ImageView
-                           android:id="@+id/bookmark"
-                           android:layout_width="16dp"
-                           android:layout_height="16dp"
-                           android:layout_gravity="center"
-                           android:src="@drawable/bookmark" />
-                   </LinearLayout>
-
-
-
-                </androidx.cardview.widget.CardView>
-
-
-
-
-            <!-- НИЖНЯЯ ПАНЕЛЬ: РЕЙТИНГ + ДАТА -->
-            <LinearLayout
-                android:id="@+id/bottomPanel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:orientation="horizontal">
-
-                <!-- РЕЙТИНГ -->
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/ratingCard"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:cardBackgroundColor="#32333A4D"
-                    app:cardCornerRadius="12dp"
-                    app:cardElevation="0dp">
-
-                    <!-- Размытый фон под рейтингом -->
-                    <eightbitlab.com.blurview.BlurView
-                        android:id="@+id/blurViewRating"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:clipToOutline="true" />
-
-                    <!-- Контент поверх размытия -->
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:paddingVertical="4dp"
-                        android:paddingHorizontal="6dp"
-                        android:orientation="horizontal">
-
-                        <ImageView
-                            android:layout_width="16dp"
-                            android:layout_height="16dp"
-                            android:src="@drawable/star_fill" />
-
-                        <Space
-                            android:layout_width="4dp"
-                            android:layout_height="1dp" />
-
-                        <TextView
-                            android:id="@+id/ratingTextView"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="4.9"
-                            android:textColor="@color/app_textview_color"
-                            android:textSize="14sp" />
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
-
-                <!-- Отступ между рейтингом и датой -->
-                <View
-                    android:layout_width="6dp"
-                    android:layout_height="1dp" />
-
-                <!-- ДАТА -->
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/dateCard"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:cardBackgroundColor="#32333A4D"
-                    app:cardCornerRadius="12dp"
-                    app:cardElevation="0dp">
-
-                    <!-- Размытый фон под датой -->
-                    <eightbitlab.com.blurview.BlurView
-                        android:id="@+id/blurViewContent"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:clipToOutline="true" />
-
-                   <LinearLayout
-                       android:layout_width="match_parent"
-                       android:layout_height="match_parent">
-                       <TextView
-                           android:id="@+id/dateTextView"
-                           android:layout_width="wrap_content"
-                           android:layout_height="wrap_content"
-                           android:paddingHorizontal="6dp"
-                           android:paddingVertical="4dp"
-                           android:text="22 Мая 2024"
-                           android:textColor="@color/app_textview_color"
-                           android:textSize="14sp" />
-                   </LinearLayout>
-
-                </androidx.cardview.widget.CardView>
-
-            </LinearLayout>
-
-        </FrameLayout>
-
-    </androidx.cardview.widget.CardView>
+<!--    <include-->
+<!--        layout="@layout/item_header"/>-->
+<!--    <include-->
+<!--        layout="@layout/item_content"-->
+<!--            />-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

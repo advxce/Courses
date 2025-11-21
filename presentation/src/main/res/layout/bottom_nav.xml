@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/bottomBar"
+    android:layout_width="match_parent"
+    android:layout_height="80dp"
+    app:cardBackgroundColor="#181A1F"
+
+    app:cardElevation="8dp">
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/text_color"
+        />
+
+    <LinearLayout
+        android:id="@+id/bottomContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:paddingBottom="15dp"
+        android:paddingTop="10dp"
+        android:layout_marginBottom="24dp">
+
+
+        <LinearLayout
+            android:id="@+id/tabHome"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+
+            <LinearLayout
+                android:id="@+id/homeCircle"
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:paddingHorizontal="18dp"
+                android:background="@drawable/bg_inactive_item">
+
+                <ImageView
+                    android:id="@+id/iconHome"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:src="@drawable/home"
+                    app:tint="#FFFFFF" />
+            </LinearLayout>
+
+
+            <TextView
+                android:id="@+id/textHome"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="@string/home_view_txt"
+                android:textSize="12sp"
+                android:textColor="#FFFFFF" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/tabFavorites"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:clickable="true"
+            android:foreground="?attr/selectableItemBackgroundBorderless">
+
+            <LinearLayout
+                android:id="@+id/favoritesCircle"
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:paddingHorizontal="18dp"
+                android:background="@drawable/bg_inactive_item">
+
+                <ImageView
+                    android:id="@+id/iconFavorites"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:src="@drawable/favorite"
+                    app:tint="#FFFFFF" />
+            </LinearLayout>
+
+
+            <TextView
+                android:id="@+id/textFavorites"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="@string/favorite_view_txt"
+                android:textSize="12sp"
+                android:textColor="#FFFFFF" />
+        </LinearLayout>
+
+
+
+
+        <LinearLayout
+            android:id="@+id/tabAccount"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/accountCircle"
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:paddingHorizontal="18dp"
+                android:background="@drawable/bg_inactive_item">
+
+                <ImageView
+                    android:id="@+id/iconAccount"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:src="@drawable/account"
+                    app:tint="#FFFFFF" />
+            </LinearLayout>
+            <TextView
+                android:id="@+id/textAccount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="@string/account_view_txt"
+                android:textSize="12sp"
+                android:textFontWeight="600"
+                android:textColor="@color/app_textview_color" />
+        </LinearLayout>
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

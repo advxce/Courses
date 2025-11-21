@@ -11,4 +11,10 @@
     <string name="forgot_password">Забыл пароль</string>
     <string name="vk">vk</string>
     <string name="classmates">Classmates</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="home_view_txt">Главная</string>
+    <string name="favorite_view_txt">Избранное</string>
+    <string name="account_view_txt">Аккаунт</string>
+    <string name="search_courses_hint">Search courses...</string>
 </resources>

@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="150dp"
-    android:id="@+id/parentCard"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:cardCornerRadius="12dp"
+    android:layout_width="match_parent"
+    android:layout_height="151dp"
+    android:id="@+id/parentCard"
+    android:background="@drawable/card_top_bg"
     >
 
     <ImageView
+        android:id="@+id/courseImage"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginBottom="1dp"
         android:adjustViewBounds="true"
         android:scaleType="centerCrop"
         android:src="@drawable/java_course_crop"
@@ -56,9 +58,6 @@
         </androidx.cardview.widget.CardView>
 
 
-
-
-        <!-- НИЖНЯЯ ПАНЕЛЬ: РЕЙТИНГ + ДАТА -->
         <LinearLayout
             android:id="@+id/bottomPanel"
             android:layout_width="wrap_content"
@@ -66,7 +65,7 @@
             android:layout_gravity="bottom"
             android:orientation="horizontal">
 
-            <!-- РЕЙТИНГ -->
+
             <androidx.cardview.widget.CardView
                 android:id="@+id/ratingCard"
                 android:layout_width="wrap_content"
@@ -75,14 +74,13 @@
                 app:cardCornerRadius="12dp"
                 app:cardElevation="0dp">
 
-                <!-- Размытый фон под рейтингом -->
+
                 <eightbitlab.com.blurview.BlurView
                     android:id="@+id/blurViewRating"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:clipToOutline="true" />
 
-                <!-- Контент поверх размытия -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -110,12 +108,12 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- Отступ между рейтингом и датой -->
+
             <View
                 android:layout_width="6dp"
                 android:layout_height="1dp" />
 
-            <!-- ДАТА -->
+
             <androidx.cardview.widget.CardView
                 android:id="@+id/dateCard"
                 android:layout_width="wrap_content"
@@ -124,7 +122,7 @@
                 app:cardCornerRadius="12dp"
                 app:cardElevation="0dp">
 
-                <!-- Размытый фон под датой -->
+
                 <eightbitlab.com.blurview.BlurView
                     android:id="@+id/blurViewContent"
                     android:layout_width="match_parent"
@@ -152,4 +150,4 @@
     </FrameLayout>
 
 
-</androidx.cardview.widget.CardView>
+</FrameLayout>

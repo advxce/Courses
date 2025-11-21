@@ -5,7 +5,7 @@ interface LoadCoursesResult {
     fun <T: Any> map(mapper:Mapper<T>):T
 
     interface Mapper<T:Any>{
-        fun mapSuccess(courses: CourseList):T
+        fun mapSuccess(courses: CourseList): T
         fun mapError(message:String):T
     }
 
