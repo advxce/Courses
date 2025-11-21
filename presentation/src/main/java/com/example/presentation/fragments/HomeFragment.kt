@@ -30,7 +30,7 @@ import kotlin.getValue
 class HomeFragment: Fragment() {
 
     private var binding: FragmentHomeBinding?=null
-    private val courseViewModel: CourseViewModel by activityViewModels()
+    private val courseViewModel: CourseViewModel by viewModels()
 
     private val adapter by lazy {
         CoursesAdapter(
@@ -39,10 +39,9 @@ class HomeFragment: Fragment() {
                     requireContext(),
                     "${course}",
                     Toast.LENGTH_SHORT
-                ).show()
-            },
+                ).show()            },
             onBookmarkClick = { course ->
-                courseViewModel.onBookmarkClick(course)
+                courseViewModel.updateCourses(course)
             },
         )
     }
@@ -68,11 +67,11 @@ class HomeFragment: Fragment() {
             bind.recView.addItemDecoration(BottomPaddingDecoration(100.dpToPx(requireContext())))
         }
 
-
+        courseViewModel.getAllCourses()
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                courseViewModel.coursesState.collect { state->
+                courseViewModel.state.collect { state->
                     when(state){
                         is CourseState.Loading ->{
                             showLoading()
@@ -90,7 +89,7 @@ class HomeFragment: Fragment() {
             }
         }
 
-        courseViewModel.loadCourses()
+
 //        courseViewModel.coursesLiveData.observe(viewLifecycleOwner) {courseUiMapper->
 //
 //            adapter.items = courseUiMapper

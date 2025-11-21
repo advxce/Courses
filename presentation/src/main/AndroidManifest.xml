@@ -3,7 +3,7 @@
 
     <application>
         <activity
-            android:name=".AuthorizationActivity"
+            android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -12,6 +12,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".Test"/>
-        <activity android:name=".MainActivity"/>
+        <activity android:name=".AuthorizationActivity"/>
     </application>
 </manifest>

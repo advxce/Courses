@@ -2,11 +2,11 @@ package com.example.data2.database
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.example.domain.Course
+import com.example.domain2.Course
 
 @Entity(tableName = "courses")
 data class CourseEntity (
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = false)
     val id:Int = 0,
     val title:String,
     val text: String,

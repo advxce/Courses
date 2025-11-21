@@ -1,7 +1,7 @@
 package com.example.courses.modules
 
 import com.example.data2.CoursesRepositoryImpl
-import com.example.domain.CoursesRepository
+import com.example.domain2.CoursesRepository
 
 import dagger.Binds
 import dagger.Module

@@ -4,21 +4,24 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Update
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface DAO {
+
     @Query("SELECT * FROM courses")
-    suspend fun getAllCourses(): List<CourseEntity>
+    fun getAllCourses(): Flow<List<CourseEntity>>
 
     @Query("SELECT * FROM courses WHERE isBookmarked = 1")
-    suspend fun getBookmarkedCourses(): List<CourseEntity>
+    fun getAllFavoritesCourses(): Flow<List<CourseEntity>>
+
+    @Query("SELECT * FROM courses WHERE id = :id")
+    suspend fun getCourseById(id:Int): CourseEntity
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertCourses(courses: List<CourseEntity>)
 
-    @Query("UPDATE courses SET isBookmarked = :isBookmarked WHERE id = :courseId")
-    suspend fun updateBookmark(courseId: Int, isBookmarked: Boolean)
-
-    @Query("DELETE FROM courses")
-    suspend fun clearCourses()
+    @Update
+    suspend fun updateBookmark(courseEntity:CourseEntity)
 }

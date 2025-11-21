@@ -61,5 +61,6 @@ dependencies {
 
 
 
-    implementation(project(":domain"))
+//    implementation(project(":domain"))
+    implementation(project(":domain2"))
 }

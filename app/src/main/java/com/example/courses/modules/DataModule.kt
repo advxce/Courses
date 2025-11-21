@@ -18,7 +18,7 @@ object DataModule {
     @Provides
     @Singleton
     fun provideDatabase(@ApplicationContext context: Context): CourseDatabase =
-        Room.databaseBuilder(context= context, klass = CourseDatabase::class.java, name =  "courses.db").build()
+        Room.databaseBuilder(context= context, klass = CourseDatabase::class.java, name =  "courses.db").fallbackToDestructiveMigration().build()
 
     @Provides
     fun provideDao(db: CourseDatabase): DAO = db.dao()

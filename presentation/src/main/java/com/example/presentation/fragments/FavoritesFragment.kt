@@ -21,6 +21,7 @@ import com.example.presentation.databinding.FragmentFavoritesBinding
 import com.example.presentation.databinding.FragmentLoginBinding
 import com.example.presentation.mapper.CourseState
 import com.example.presentation.viewModels.FavoritesViewModel
+
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -36,7 +37,7 @@ class FavoritesFragment: Fragment() {
                 Toast.makeText(requireContext(), course.title, Toast.LENGTH_SHORT).show()
             },
             onBookmarkClick = { course ->
-                favoritesViewModel.onBookmarkClick(course)
+                favoritesViewModel.updateCourses(course)
             }
         )
     }
@@ -62,11 +63,11 @@ class FavoritesFragment: Fragment() {
         }
 
 
-
+        favoritesViewModel.getAllFavoriteCourses()
 
         viewLifecycleOwner.lifecycleScope.launch {
            repeatOnLifecycle (Lifecycle.State.STARTED) {
-                favoritesViewModel.coursesState.collect { state->
+                favoritesViewModel.state.collect { state->
                     when(state){
                         is CourseState.Loading ->{
                             showLoading()
@@ -84,7 +85,7 @@ class FavoritesFragment: Fragment() {
             }
         }
 
-        favoritesViewModel.loadCourses()
+
     }
     fun Int.dpToPx(context: Context): Int = (this * context.resources.displayMetrics.density).toInt()
 

@@ -1,7 +1,7 @@
 package com.example.data2.retrofit
 
 import com.example.data2.database.CourseEntity
-import com.example.domain.Course
+import com.example.domain2.Course
 import com.google.gson.annotations.SerializedName
 import kotlinx.serialization.Serializable
 
@@ -30,4 +30,18 @@ data class CourseRemoteData(
             isBookmarked = isBookmarked
         )
     }
+    fun toEntity(): CourseEntity{
+        return CourseEntity(
+            id = id,
+            title = title,
+            text = text,
+            price = price,
+            rate = rate,
+            startDate = startDate,
+            hasLike = hasLike,
+            publishDate = publishDate,
+            isBookmarked = isBookmarked
+        )
+    }
+
 }

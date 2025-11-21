@@ -1,6 +1,6 @@
 package com.example.data2.database
 
-import com.example.domain.Course
+import com.example.domain2.Course
 
 fun Course.toEntity(): CourseEntity {
     return CourseEntity(

@@ -10,9 +10,9 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.navigation.NavController
-import com.example.domain.CourseList
-import com.example.domain.CoursesRepository
-import com.example.domain.LoadCoursesResult
+import com.example.domain2.CourseList
+import com.example.domain2.CoursesRepository
+import com.example.domain2.LoadCoursesResult
 import com.example.presentation.databinding.ActivityMainBinding
 import com.example.presentation.fragments.AccountFragment
 import com.example.presentation.fragments.FavoritesFragment
@@ -44,7 +44,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding?.root)
 
 
-        load()
+
 
 
         initBottomBar()
@@ -197,26 +197,7 @@ class MainActivity : AppCompatActivity() {
         blurViewContent?.initBlur()
     }
 
-    fun load() {
-        coroutineScope.launch {
-            try {
-                val result = coursesRepository.loadCourses()
-                result.map(object : LoadCoursesResult.Mapper<Unit> {
-                    override fun mapSuccess(courses: CourseList) {
 
-                        Log.i("test", "${courses.listCourses}")
-                    }
-
-                    override fun mapError(message: String) {
-                        Log.i("test", "${message}")
-                    }
-
-                })
-            } catch (e: Exception) {
-                Log.i("test", "${e.message}")
-            }
-        }
-    }
 
 
     override fun onDestroy() {

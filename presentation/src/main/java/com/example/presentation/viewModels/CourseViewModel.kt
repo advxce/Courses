@@ -3,61 +3,83 @@ package com.example.presentation.viewModels
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.domain.CoursesRepository
-import com.example.domain.LoadCoursesResult
+import com.example.domain2.CoursesRepository
+import com.example.domain2.LoadCoursesResult
+
 import com.example.presentation.data.CourseUI
+import com.example.presentation.data.toDomain
+import com.example.presentation.data.toUI
 import com.example.presentation.mapper.CourseState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class CourseViewModel @Inject constructor(
-    private val coursesRepository: CoursesRepository,
+    private val repo: CoursesRepository,
     private val mapper: LoadCoursesResult.Mapper<CourseState>
-): ViewModel() {
+) : ViewModel() {
 
-    private val _coursesState = MutableStateFlow<CourseState>(CourseState.Loading)
-    val coursesState : StateFlow<CourseState> = _coursesState.asStateFlow()
+    private val _state = MutableStateFlow<CourseState>(CourseState.Loading)
+    val state: StateFlow<CourseState> = _state
 
-    fun loadCourses(){
+    fun getAllCourses(){
         viewModelScope.launch {
-
-            _coursesState.value = CourseState.Loading
-
+            _state.value = CourseState.Loading
             try {
-                val courses = coursesRepository.loadCourses()
+                val allCourses = repo.getAllCourses()
+                _state.value  = allCourses.map(mapper)
 
-                _coursesState.value = courses.map(mapper)
-                Log.i("DB",_coursesState.value.toString())
             }
-            catch (e: Exception) {
-                _coursesState.value = CourseState.Error("Ошибка сети: ${e.message}")
+            catch (e: Exception){
+                _state.value = CourseState.Error("Network error")
             }
-
-
         }
+
     }
 
-    fun onBookmarkClick(course: CourseUI) {
+    fun updateCourses(courseUI: CourseUI) {
         viewModelScope.launch {
-            coursesRepository.toggleBookmark(course.id, !course.isBookmarked)
+            try {
+                Log.d("ViewModel", "Before update - UI state: ${courseUI.isBookmarked}")
 
+                val currentCourse = repo.getCourseById(courseUI.id)
+                Log.d("ViewModel", "From DB - current bookmark: ${currentCourse.isBookmarked}")
 
+                val newBookmarkState = !currentCourse.isBookmarked
+                val updatedCourse = currentCourse.copy(isBookmarked = newBookmarkState)
 
-            val currentState = _coursesState.value
+                Log.d("ViewModel", "Updating to: $newBookmarkState")
 
-            if (currentState is CourseState.Success) {
-                val updatedList = currentState.courses.map { c ->
-                    if (c.id == course.id) c.copy(isBookmarked = !c.isBookmarked)
-                    else c
-                }
-                CourseState.Success(updatedList)
+                repo.updateCourse(updatedCourse)
 
+                val verifiedCourse = repo.getCourseById(courseUI.id)
+                Log.d("ViewModel", "After update - verified: ${verifiedCourse.isBookmarked}")
+
+                updateCourseInState(courseUI.id, newBookmarkState)
+
+            } catch (e: Exception) {
+                Log.e("ViewModel", "Update error: ${e.message}", e)
+                _state.value = CourseState.Error("Failed to update: ${e.message}")
             }
         }
     }
+
+    private fun updateCourseInState(courseId: Int, newBookmarkState: Boolean) {
+        val currentState = _state.value
+        if (currentState is CourseState.Success) {
+            val updatedCourses = currentState.courses.map { course ->
+                if (course.id == courseId) {
+                    course.copy(isBookmarked = newBookmarkState)
+                } else {
+                    course
+                }
+            }
+            _state.value = CourseState.Success(updatedCourses)
+        }
+    }
+
 }

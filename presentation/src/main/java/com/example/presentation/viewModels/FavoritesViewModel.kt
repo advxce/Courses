@@ -1,43 +1,77 @@
 package com.example.presentation.viewModels
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.domain.CoursesRepository
-import com.example.domain.LoadCoursesResult
+import com.example.domain2.CoursesRepository
+import com.example.domain2.LoadCoursesResult
 import com.example.presentation.data.CourseUI
+import com.example.presentation.data.toUI
 import com.example.presentation.mapper.CourseState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class FavoritesViewModel @Inject constructor(
-    private val coursesRepository: CoursesRepository,
+    private val repo: CoursesRepository,
     private val mapper: LoadCoursesResult.Mapper<CourseState>
-):ViewModel() {
-    private val _coursesState = MutableStateFlow<CourseState>(CourseState.Loading)
-    val coursesState: StateFlow<CourseState> = _coursesState.asStateFlow()
+) : ViewModel() {
 
-    fun loadCourses() {
+    private val _state = MutableStateFlow<CourseState>(CourseState.Loading)
+    val state: StateFlow<CourseState> = _state
+
+    fun getAllFavoriteCourses(){
         viewModelScope.launch {
-            _coursesState.value = CourseState.Loading
+            val favoritesCourses = repo.getAllFavoriteCourses()
+            _state.value = CourseState.Success(favoritesCourses.first().map { it.toUI() })
+
+        }
+    }
+
+    fun updateCourses(courseUI: CourseUI) {
+        viewModelScope.launch {
             try {
-                val result = coursesRepository.getBookmarkedCourses()
-                _coursesState.value = result.map(mapper)
+                Log.d("ViewModel", "Before update - UI state: ${courseUI.isBookmarked}")
+
+                val currentCourse = repo.getCourseById(courseUI.id)
+                Log.d("ViewModel", "From DB - current bookmark: ${currentCourse.isBookmarked}")
+
+                val newBookmarkState = !currentCourse.isBookmarked
+                val updatedCourse = currentCourse.copy(isBookmarked = newBookmarkState)
+
+                Log.d("ViewModel", "Updating to: $newBookmarkState")
+
+                repo.updateCourse(updatedCourse)
+
+                val verifiedCourse = repo.getCourseById(courseUI.id)
+                Log.d("ViewModel", "After update - verified: ${verifiedCourse.isBookmarked}")
+
+                updateCourseInState(courseUI.id, newBookmarkState)
+                getAllFavoriteCourses()
+
             } catch (e: Exception) {
-                _coursesState.value = CourseState.Error("Ошибка: ${e.message}")
+                Log.e("ViewModel", "Update error: ${e.message}", e)
+                _state.value = CourseState.Error("Failed to update: ${e.message}")
             }
         }
     }
 
-    fun onBookmarkClick(course: CourseUI) {
-        viewModelScope.launch {
-            coursesRepository.toggleBookmark(course.id, course.isBookmarked)
-
-            loadCourses()
+    private fun updateCourseInState(courseId: Int, newBookmarkState: Boolean) {
+        val currentState = _state.value
+        if (currentState is CourseState.Success) {
+            val updatedCourses = currentState.courses.map { course ->
+                if (course.id == courseId) {
+                    course.copy(isBookmarked = newBookmarkState)
+                } else {
+                    course
+                }
+            }
+            _state.value = CourseState.Success(updatedCourses)
         }
     }
 }

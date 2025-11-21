@@ -1,6 +1,6 @@
 package com.example.courses.modules
 
-import com.example.domain.LoadCoursesResult
+import com.example.domain2.LoadCoursesResult
 import com.example.presentation.data.CourseUI
 import com.example.presentation.mapper.CourseState
 import com.example.presentation.mapper.CourseUiMapper
