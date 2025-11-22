@@ -80,7 +80,8 @@ class CoursesRepositoryImpl @Inject constructor(
     override suspend fun getAllFavoriteCourses(): Flow<List<Course>> =
         dao.getAllFavoritesCourses().map { list -> list.map { it.toDomain() } }
 
-
+    override suspend fun getCoursesSortedByPublishDateDesc(): Flow<List<Course>> =
+        dao.getCoursesSortedByPublishDateDesc().map { list -> list.map { it.toDomain() } }
 
 
     override suspend fun getCourseById(id: Int): Course{

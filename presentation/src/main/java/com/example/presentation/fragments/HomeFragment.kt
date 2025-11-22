@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -15,12 +14,9 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.presentation.BottomPaddingDecoration
 import com.example.presentation.viewModels.CourseViewModel
-import com.example.presentation.R
 import com.example.presentation.adapter.CoursesAdapter
 import com.example.presentation.data.CourseUI
-import com.example.presentation.databinding.FragmentAccountBinding
 import com.example.presentation.databinding.FragmentHomeBinding
-import com.example.presentation.databinding.FragmentLoginBinding
 import com.example.presentation.mapper.CourseState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -41,7 +37,7 @@ class HomeFragment: Fragment() {
                     Toast.LENGTH_SHORT
                 ).show()            },
             onBookmarkClick = { course ->
-                courseViewModel.updateCourses(course)
+                courseViewModel.updateCourse(course)
             },
         )
     }
@@ -69,7 +65,7 @@ class HomeFragment: Fragment() {
 
         courseViewModel.getAllCourses()
 
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 courseViewModel.state.collect { state->
                     when(state){
@@ -89,12 +85,10 @@ class HomeFragment: Fragment() {
             }
         }
 
+        binding?.sortByDateDesc?.setOnClickListener {
+            courseViewModel.getCoursesSortedByPublishDateDesc()
+        }
 
-//        courseViewModel.coursesLiveData.observe(viewLifecycleOwner) {courseUiMapper->
-//
-//            adapter.items = courseUiMapper
-//            adapter.notifyDataSetChanged()
-//        }
 
 
     }

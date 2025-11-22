@@ -65,6 +65,13 @@ fun courseAdapterDelegate(
                 onBookmarkedClick(newItem)
             }
 
+            bookmark.setColorFilter(
+                if (item.isBookmarked)
+                    ContextCompat.getColor(context, R.color.app_green)
+                else
+                    ContextCompat.getColor(context, R.color.app_textview_color)
+            )
+
         }
 
         binding.itemContent.apply {

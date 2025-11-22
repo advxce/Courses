@@ -30,8 +30,9 @@
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="18dp"
+                android:layout_marginStart="18dp"
                 android:hint="@string/search_courses_hint"
+                android:textColor="@color/app_textview_color"
                 android:textColorHint="@color/hint_color_50"
                 android:textSize="18sp"
                 android:layout_weight="80"
@@ -56,6 +57,7 @@
 
 
     <LinearLayout
+        android:id="@+id/sortByDateDesc"
         android:layout_marginTop="16dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -70,9 +72,9 @@
             android:textSize="18sp"
             android:textFontWeight="600"
             android:textColor="@color/app_green"
-            android:text="По дате добавления"/>
+            android:text="@string/add_by_date"/>
         <ImageView
-            android:layout_marginLeft="4dp"
+            android:layout_marginStart="4dp"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:src="@drawable/arrow_down_up"/>

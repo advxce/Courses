@@ -24,4 +24,7 @@ interface DAO {
 
     @Update
     suspend fun updateBookmark(courseEntity:CourseEntity)
+
+    @Query("SELECT * FROM courses ORDER BY publishDate DESC")
+    fun getCoursesSortedByPublishDateDesc():  Flow<List<CourseEntity>>
 }

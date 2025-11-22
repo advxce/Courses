@@ -1,6 +1,7 @@
 package com.example.presentation.fragments
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -21,6 +22,7 @@ import com.example.presentation.R
 import com.example.presentation.databinding.FragmentLoginBinding
 import com.example.presentation.viewModels.LoginViewModel
 import kotlinx.coroutines.launch
+import androidx.core.net.toUri
 
 class LoginFragment : Fragment() {
 
@@ -143,6 +145,27 @@ class LoginFragment : Fragment() {
                 val mainActivityIntent = Intent(requireActivity(), MainActivity::class.java)
                 startActivity(mainActivityIntent)
             }
+
+            classmatesButton.setOnClickListener {
+                try {
+                    val classmatesIntent = Intent(Intent.ACTION_VIEW, "https://ok.ru/".toUri())
+                    startActivity(classmatesIntent)
+                }
+                catch (e: Exception){
+                    Toast.makeText(requireActivity(), "Cant find this website", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            vkButton.setOnClickListener {
+                try {
+                    val vkIntent = Intent(Intent.ACTION_VIEW, "https://vk.com/".toUri())
+                    startActivity(vkIntent)
+                }
+                catch (e: Exception){
+                    Toast.makeText(requireActivity(), "Cant find this website", Toast.LENGTH_SHORT).show()
+                }
+            }
+
         }
     }
 

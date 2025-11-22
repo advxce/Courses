@@ -17,4 +17,5 @@
     <string name="favorite_view_txt">Избранное</string>
     <string name="account_view_txt">Аккаунт</string>
     <string name="search_courses_hint">Search courses...</string>
+    <string name="add_by_date">По дате добавления</string>
 </resources>

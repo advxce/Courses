@@ -7,7 +7,6 @@ import com.example.domain2.CoursesRepository
 import com.example.domain2.LoadCoursesResult
 
 import com.example.presentation.data.CourseUI
-import com.example.presentation.data.toDomain
 import com.example.presentation.data.toUI
 import com.example.presentation.mapper.CourseState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -41,7 +40,7 @@ class CourseViewModel @Inject constructor(
 
     }
 
-    fun updateCourses(courseUI: CourseUI) {
+    fun updateCourse(courseUI: CourseUI) {
         viewModelScope.launch {
             try {
                 Log.d("ViewModel", "Before update - UI state: ${courseUI.isBookmarked}")
@@ -79,6 +78,14 @@ class CourseViewModel @Inject constructor(
                 }
             }
             _state.value = CourseState.Success(updatedCourses)
+        }
+    }
+
+    fun getCoursesSortedByPublishDateDesc(){
+        viewModelScope.launch {
+            val sortedCourses = repo.getCoursesSortedByPublishDateDesc()
+            _state.value = CourseState.Success(sortedCourses.first().map { it.toUI() })
+
         }
     }
 

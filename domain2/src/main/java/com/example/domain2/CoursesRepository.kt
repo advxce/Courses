@@ -7,6 +7,7 @@ interface CoursesRepository {
     suspend fun getAllCourses(): LoadCoursesResult
 
     suspend fun getAllFavoriteCourses(): Flow<List<Course>>
+    suspend fun getCoursesSortedByPublishDateDesc():Flow<List<Course>>
 
     suspend fun updateCourse(course:Course)
     suspend fun getCourseById(id:Int):Course
