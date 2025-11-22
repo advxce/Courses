@@ -43,25 +43,25 @@ class CourseViewModel @Inject constructor(
     fun updateCourse(courseUI: CourseUI) {
         viewModelScope.launch {
             try {
-                Log.d("ViewModel", "Before update - UI state: ${courseUI.isBookmarked}")
+                Log.d("ViewModel", "Bookmark from ui: ${courseUI.isBookmarked}")
 
                 val currentCourse = repo.getCourseById(courseUI.id)
-                Log.d("ViewModel", "From DB - current bookmark: ${currentCourse.isBookmarked}")
+                Log.d("ViewModel", "Bookmark From db: ${currentCourse.isBookmarked}")
 
                 val newBookmarkState = !currentCourse.isBookmarked
                 val updatedCourse = currentCourse.copy(isBookmarked = newBookmarkState)
 
-                Log.d("ViewModel", "Updating to: $newBookmarkState")
+                Log.d("ViewModel", "BookmarkState: $newBookmarkState")
 
                 repo.updateCourse(updatedCourse)
 
                 val verifiedCourse = repo.getCourseById(courseUI.id)
-                Log.d("ViewModel", "After update - verified: ${verifiedCourse.isBookmarked}")
+                Log.d("ViewModel", "verifiedCourses: ${verifiedCourse.isBookmarked}")
 
                 updateCourseInState(courseUI.id, newBookmarkState)
 
             } catch (e: Exception) {
-                Log.e("ViewModel", "Update error: ${e.message}", e)
+                Log.i("ViewModel", "Update error")
                 _state.value = CourseState.Error("Failed to update: ${e.message}")
             }
         }

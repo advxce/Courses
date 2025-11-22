@@ -18,4 +18,6 @@
     <string name="account_view_txt">Аккаунт</string>
     <string name="search_courses_hint">Search courses...</string>
     <string name="add_by_date">По дате добавления</string>
+    <string name="no_favorites_courses">Нет избранных курсов</string>
+    <string name="favorite">Избранное</string>
 </resources>
