@@ -1,7 +1,7 @@
-package com.example.courses.modules
+package com.example.di.modules
 
 import com.example.data2.CoursesRepositoryImpl
-import com.example.domain2.CoursesRepository
+import com.example.domain2.repository.CoursesRepository
 
 import dagger.Binds
 import dagger.Module
@@ -14,6 +14,7 @@ abstract class MainModule {
 
     @Binds
     abstract fun provideRepository(impl: CoursesRepositoryImpl): CoursesRepository
+
 
 
 }

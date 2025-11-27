@@ -2,9 +2,9 @@ package com.example.presentation.mapper
 
 import androidx.core.content.ContextCompat
 
-import com.example.domain2.CourseList
+import com.example.domain2.entity.CourseList
 
-import com.example.domain2.LoadCoursesResult
+import com.example.domain2.mapper.LoadCoursesResult
 import com.example.presentation.R
 import com.example.presentation.data.CourseUI
 import com.example.presentation.data.toUI

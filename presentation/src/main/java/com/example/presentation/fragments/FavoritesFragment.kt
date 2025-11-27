@@ -39,7 +39,7 @@ class FavoritesFragment: Fragment() {
                 Toast.makeText(requireContext(), course.title, Toast.LENGTH_SHORT).show()
             },
             onBookmarkClick = { course ->
-                favoritesViewModel.updateCourses(course)
+                favoritesViewModel.updateCourse(course)
             }
         )
     }
@@ -133,16 +133,5 @@ class FavoritesFragment: Fragment() {
         binding = null
     }
 
-    companion object{
-        fun newInstance(): FavoritesFragment {
-            val loginFragment = FavoritesFragment().apply {
-                arguments = Bundle().apply {
-
-                }
-            }
-
-            return loginFragment
-        }
-    }
 
 }

@@ -1,7 +1,7 @@
 package com.example.presentation.data
 
 
-import com.example.domain2.Course
+import com.example.domain2.entity.Course
 import com.example.presentation.R
 
 

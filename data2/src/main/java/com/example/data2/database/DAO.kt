@@ -5,10 +5,13 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
+import com.example.data2.database.entity.CourseEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface DAO {
+    @Query("DELETE FROM courses")
+    suspend fun clearCourses()
 
     @Query("SELECT * FROM courses")
     fun getAllCourses(): Flow<List<CourseEntity>>
@@ -23,7 +26,7 @@ interface DAO {
     suspend fun insertCourses(courses: List<CourseEntity>)
 
     @Update
-    suspend fun updateBookmark(courseEntity:CourseEntity)
+    suspend fun updateBookmark(courseEntity: CourseEntity)
 
     @Query("SELECT * FROM courses ORDER BY publishDate DESC")
     fun getCoursesSortedByPublishDateDesc():  Flow<List<CourseEntity>>

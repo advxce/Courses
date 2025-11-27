@@ -3,8 +3,10 @@ package com.example.presentation.viewModels
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.domain2.CoursesRepository
-import com.example.domain2.LoadCoursesResult
+import com.example.domain2.repository.CoursesRepository
+import com.example.domain2.mapper.LoadCoursesResult
+import com.example.domain2.useCase.GetAllFavoritesCoursesUseCase
+import com.example.domain2.useCase.ToggleCourseBookmarkUseCase
 import com.example.presentation.data.CourseUI
 import com.example.presentation.data.toUI
 import com.example.presentation.mapper.CourseState
@@ -18,6 +20,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class FavoritesViewModel @Inject constructor(
+    private val getAllFavoritesCoursesUseCase: GetAllFavoritesCoursesUseCase,
+    private val toggleCourseBookmarkUseCase: ToggleCourseBookmarkUseCase,
     private val repo: CoursesRepository,
     private val mapper: LoadCoursesResult.Mapper<CourseState>
 ) : ViewModel() {
@@ -25,41 +29,29 @@ class FavoritesViewModel @Inject constructor(
     private val _state = MutableStateFlow<CourseState>(CourseState.Loading)
     val state: StateFlow<CourseState> = _state
 
+
+
     fun getAllFavoriteCourses(){
         viewModelScope.launch {
-            val favoritesCourses = repo.getAllFavoriteCourses()
+            val favoritesCourses = getAllFavoritesCoursesUseCase.invoke()
             _state.value = CourseState.Success(favoritesCourses.first().map { it.toUI() })
 
         }
     }
 
-    fun updateCourses(courseUI: CourseUI) {
+    fun updateCourse(course: CourseUI){
         viewModelScope.launch {
             try {
-                Log.d("ViewModel", "Bookmark from ui: ${courseUI.isBookmarked}")
-
-                val currentCourse = repo.getCourseById(courseUI.id)
-                Log.d("ViewModel", "Bookmark From db: ${currentCourse.isBookmarked}")
-
-                val newBookmarkState = !currentCourse.isBookmarked
-                val updatedCourse = currentCourse.copy(isBookmarked = newBookmarkState)
-
-                Log.d("ViewModel", "BookmarkState: $newBookmarkState")
-
-                repo.updateCourse(updatedCourse)
-
-                val verifiedCourse = repo.getCourseById(courseUI.id)
-                Log.d("ViewModel", "verifiedCourses: ${verifiedCourse.isBookmarked}")
-                updateCourseInState(courseUI.id, newBookmarkState)
+                val updatedCourse = toggleCourseBookmarkUseCase.invoke(course.id)
+                updateCourseInState(updatedCourse.id, updatedCourse.isBookmarked)
                 getAllFavoriteCourses()
-
-            } catch (e: Exception) {
-                Log.e("ViewModel", "Update error: ${e.message}", e)
-                _state.value = CourseState.Error("Failed to update: ${e.message}")
             }
+            catch (e: Exception){
+                _state.value = CourseState.Error("Failed to update")
+            }
+
         }
     }
-
     private fun updateCourseInState(courseId: Int, newBookmarkState: Boolean) {
         val currentState = _state.value
         if (currentState is CourseState.Success) {

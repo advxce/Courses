@@ -1,9 +1,8 @@
 package com.example.presentation.adapter.delegates
 
-import android.util.Log
+
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
-import com.example.presentation.MainActivity
 import com.example.presentation.R
 import com.example.presentation.data.CourseUI
 import com.example.presentation.databinding.ItemCourseBinding

@@ -1,7 +1,6 @@
-package com.example.courses.modules
+package com.example.di.modules
 
-import com.example.domain2.LoadCoursesResult
-import com.example.presentation.data.CourseUI
+import com.example.domain2.mapper.LoadCoursesResult
 import com.example.presentation.mapper.CourseState
 import com.example.presentation.mapper.CourseUiMapper
 import dagger.Module

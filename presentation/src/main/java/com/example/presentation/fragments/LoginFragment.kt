@@ -180,16 +180,5 @@ class LoginFragment : Fragment() {
         binding = null
     }
 
-    companion object {
-        fun newInstance(): LoginFragment {
-            val loginFragment = LoginFragment().apply {
-                arguments = Bundle().apply {
-
-                }
-            }
-
-            return loginFragment
-        }
-    }
 
 }

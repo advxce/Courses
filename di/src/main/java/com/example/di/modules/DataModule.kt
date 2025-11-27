@@ -1,8 +1,7 @@
-package com.example.courses.modules
+package com.example.di.modules
 
 import android.content.Context
 import androidx.room.Room
-import com.example.data2.NetworkChecker
 import com.example.data2.database.CourseDatabase
 import com.example.data2.database.DAO
 import dagger.Module

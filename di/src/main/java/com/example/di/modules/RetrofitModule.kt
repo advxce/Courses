@@ -1,12 +1,11 @@
-package com.example.courses.modules
+package com.example.di.modules
 
 import android.content.Context
-import com.example.data2.CourseRemoteService
-import com.example.data2.NetworkChecker
+import com.example.data2.retrofit.service.CourseRemoteService
+import com.example.data2.retrofit.NetworkChecker
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ActivityComponent
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient

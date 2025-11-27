@@ -3,8 +3,11 @@ package com.example.presentation.viewModels
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.domain2.CoursesRepository
-import com.example.domain2.LoadCoursesResult
+import com.example.domain2.repository.CoursesRepository
+import com.example.domain2.mapper.LoadCoursesResult
+import com.example.domain2.useCase.GetAllCoursesUseCase
+import com.example.domain2.useCase.GetCoursesBySortPublishDateUseCase
+import com.example.domain2.useCase.ToggleCourseBookmarkUseCase
 
 import com.example.presentation.data.CourseUI
 import com.example.presentation.data.toUI
@@ -13,60 +16,46 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class CourseViewModel @Inject constructor(
-    private val repo: CoursesRepository,
-    private val mapper: LoadCoursesResult.Mapper<CourseState>
+    private val getAllCoursesUseCase: GetAllCoursesUseCase,
+    private val toggleCourseBookmarkUseCase: ToggleCourseBookmarkUseCase,
+    private val mapper: LoadCoursesResult.Mapper<CourseState>,
+    private val getCoursesBySortPublishDateUseCase: GetCoursesBySortPublishDateUseCase,
 ) : ViewModel() {
 
     private val _state = MutableStateFlow<CourseState>(CourseState.Loading)
     val state: StateFlow<CourseState> = _state
 
-    fun getAllCourses(){
+
+    fun getAllCourses() {
         viewModelScope.launch {
             _state.value = CourseState.Loading
             try {
-                val allCourses = repo.getAllCourses()
-                _state.value  = allCourses.map(mapper)
-
-            }
-            catch (e: Exception){
+                val allCourses = getAllCoursesUseCase.invoke()
+                _state.value = allCourses.map(mapper)
+            } catch (e: Exception) {
                 _state.value = CourseState.Error("Network error")
             }
         }
-
     }
 
-    fun updateCourse(courseUI: CourseUI) {
+    fun updateCourse(course: CourseUI){
         viewModelScope.launch {
             try {
-                Log.d("ViewModel", "Bookmark from ui: ${courseUI.isBookmarked}")
-
-                val currentCourse = repo.getCourseById(courseUI.id)
-                Log.d("ViewModel", "Bookmark From db: ${currentCourse.isBookmarked}")
-
-                val newBookmarkState = !currentCourse.isBookmarked
-                val updatedCourse = currentCourse.copy(isBookmarked = newBookmarkState)
-
-                Log.d("ViewModel", "BookmarkState: $newBookmarkState")
-
-                repo.updateCourse(updatedCourse)
-
-                val verifiedCourse = repo.getCourseById(courseUI.id)
-                Log.d("ViewModel", "verifiedCourses: ${verifiedCourse.isBookmarked}")
-
-                updateCourseInState(courseUI.id, newBookmarkState)
-
-            } catch (e: Exception) {
-                Log.i("ViewModel", "Update error")
-                _state.value = CourseState.Error("Failed to update: ${e.message}")
+                val updatedCourse = toggleCourseBookmarkUseCase.invoke(course.id)
+                updateCourseInState(updatedCourse.id, updatedCourse.isBookmarked)
             }
+            catch (e: Exception){
+                _state.value = CourseState.Error("Failed to update")
+            }
+
         }
     }
-
     private fun updateCourseInState(courseId: Int, newBookmarkState: Boolean) {
         val currentState = _state.value
         if (currentState is CourseState.Success) {
@@ -81,11 +70,11 @@ class CourseViewModel @Inject constructor(
         }
     }
 
-    fun getCoursesSortedByPublishDateDesc(){
+    fun getCourseBySortDate(){
         viewModelScope.launch {
-            val sortedCourses = repo.getCoursesSortedByPublishDateDesc()
-            _state.value = CourseState.Success(sortedCourses.first().map { it.toUI() })
-
+            val getCourses = getCoursesBySortPublishDateUseCase.getCoursesSortedByPublishDateDesc()
+            val courseList = getCourses.first().map { it.toUI() }
+            _state.value = CourseState.Success(courseList)
         }
     }
 

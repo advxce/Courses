@@ -86,7 +86,7 @@ class HomeFragment: Fragment() {
         }
 
         binding?.sortByDateDesc?.setOnClickListener {
-            courseViewModel.getCoursesSortedByPublishDateDesc()
+            courseViewModel.getCourseBySortDate()
         }
 
 
@@ -118,16 +118,6 @@ class HomeFragment: Fragment() {
         binding = null
     }
 
-    companion object{
-        fun newInstance(): HomeFragment {
-            val loginFragment = HomeFragment().apply {
-                arguments = Bundle().apply {
 
-                }
-            }
-
-            return loginFragment
-        }
-    }
 
 }

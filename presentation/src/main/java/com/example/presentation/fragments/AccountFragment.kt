@@ -32,16 +32,5 @@ class AccountFragment: Fragment() {
         binding = null
     }
 
-    companion object{
-        fun newInstance(): AccountFragment {
-            val loginFragment = AccountFragment().apply {
-                arguments = Bundle().apply {
-
-                }
-            }
-
-            return loginFragment
-        }
-    }
 
 }
